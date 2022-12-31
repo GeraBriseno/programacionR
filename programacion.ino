@@ -19,26 +19,30 @@ const int echoPin3 = 16;
 long duracion;
 int distancia;
 
-int distanciaSensorAlPiso = 36;       //distancia del sensor al piso en centímetros /////////////////
-int distanciaSensorANivelLLeno = 10;   //distancia del sensor al nivel del tanque lleno ///////////////////
+int distanciaSensorAlPiso = 36;       //distancia del sensor al piso en centímetros //
+int distanciaSensorANivelLLeno = 10;   //distancia del sensor al nivel del tanque lleno //
 
-//niveles tanques
+//NIVELES TANQUES//
 String nivelesTanques= "Tanques ";
 
-// botones inicio 
-int boton1 = 4;
-int boton2 = 5;
-int boton3 = 23;
-int boton4 = 0;
+//BOTONES//
+int pinBoton1 = 4;
+int pinBoton2 = 5;
+int pinBoton3 = 23;
+int pinBoton4 = 0;
+
 int estadoBoton1;
 int estadoBoton2;
 int estadoBoton3;
 int estadoBoton4;
+
 int ultimoEstadoBoton1 = LOW;
 int ultimoEstadoBoton2 = LOW;
 int ultimoEstadoBoton3 = LOW;
 int ultimoEstadoBoton4 = LOW;
+
 bool valorBoton4 = false;
+
 int menuPrincipal = 1;
 int menuRecirculacion = 1;
 int menuInyeccion = 1;
@@ -64,7 +68,7 @@ int tiempoEnMinutos = 0;
 
 String operacion;
 
-//valvulas
+//VALVULAS//
 int RR =19;  //RECIRCULAR RESINA
 int RH =2;  //18 //RECIRCULAR HARDENER
 int BHA = 32;  //BOMBA HARDENER ALTA
@@ -81,11 +85,11 @@ void setup (){
   pinMode(pinSDA, OUTPUT);
   pinMode(pinSCL, OUTPUT);
 
-  pinMode(boton1, INPUT_PULLUP);
-  pinMode(boton2, INPUT_PULLUP);
-  pinMode(boton3, INPUT_PULLUP);
-  pinMode(boton4, INPUT_PULLUP);
-  //valvulas
+  pinMode(pinBoton1, INPUT_PULLUP);
+  pinMode(pinBoton2, INPUT_PULLUP);
+  pinMode(pinBoton3, INPUT_PULLUP);
+  pinMode(pinBoton4, INPUT_PULLUP);
+
   pinMode(RR, OUTPUT);
   pinMode(RH, OUTPUT);
   pinMode(BHA, OUTPUT);
@@ -95,7 +99,8 @@ void setup (){
   pinMode(SR, OUTPUT);
   pinMode(SH, OUTPUT);
   pinMode(SA, OUTPUT);
-  pinMode(BL, OUTPUT);    
+  pinMode(BL, OUTPUT);   
+   
   pinMode(trigPin1, OUTPUT);
   //pinMode(trigPin2, OUTPUT);
   //pinMode(trigPin3, OUTPUT);
@@ -118,7 +123,6 @@ void boton4encender(){
   digitalWrite(SR,HIGH);
   digitalWrite(SH,HIGH);
   digitalWrite(SA,HIGH);  
-  valorBoton4 = true;
 }
 void boton4apagar(){
   digitalWrite(BHA,LOW);
@@ -126,7 +130,6 @@ void boton4apagar(){
   digitalWrite(SR,LOW);
   digitalWrite(SH,LOW);
   digitalWrite(SA,LOW);  
-  valorBoton4 = false;
 }
 void recirculacionEncender(){
   digitalWrite(BRB,HIGH);
@@ -160,7 +163,6 @@ void terminarPurgaHardener(){
   digitalWrite(SH,LOW);
   digitalWrite(SA,LOW);  
 }
-
 void lavadoEncender(){
   digitalWrite(RR,HIGH);
   digitalWrite(RH,HIGH);
@@ -243,7 +245,6 @@ void updateMenu(){
       break;            
   }
 }
-
 void updateRecirculacion(){
   switch(menuRecirculacion){
     case 1:
@@ -284,7 +285,6 @@ void updateRecirculacion(){
       break;       
   }
 }
-
 void updateInyeccion(){
     switch(menuInyeccion){
     case 1:
@@ -307,7 +307,6 @@ void updateInyeccion(){
       break;      
   }
 }
-
 void updateLavado(){
     int r = random(1,11);
     String x = "minutos";
@@ -373,7 +372,7 @@ void mensajeTerminado(int tiempoEnMinutos, int tRestante, String operacion){
   delay(3000); 
   }
 int terminarOperacion(){
-  int lectura3 = !digitalRead(boton3);
+  int lectura3 = !digitalRead(pinBoton3);
   if(lectura3 == HIGH){
   return 0;
   }
@@ -387,10 +386,10 @@ int terminarOperacion(){
 void loop(){
   lcd.setCursor(0, 0);
   
-  int lectura1 = !digitalRead(boton1);              //LOS VALORES ESTAN INVERTIDOS (!digitalRead(boton1)) POR EL USO DE PULLUPS EN LOS BOTONES
-  int lectura2 = !digitalRead(boton2);
-  int lectura3 = !digitalRead(boton3);
-  int lectura4 = !digitalRead(boton4);
+  int lectura1 = !digitalRead(pinBoton1);              //LOS VALORES ESTAN INVERTIDOS (!digitalRead(pinBoton1)) POR EL USO DE PULLUPS EN LOS BOTONES
+  int lectura2 = !digitalRead(pinBoton2);
+  int lectura3 = !digitalRead(pinBoton3);
+  int lectura4 = !digitalRead(pinBoton4);
   
   if (lectura1 != ultimoEstadoBoton1 || lectura2 != ultimoEstadoBoton2 || lectura3 != ultimoEstadoBoton3 || lectura4 != ultimoEstadoBoton4 ){
     lastDebounceTime = millis();
